@@ -1,0 +1,29 @@
+{
+	"groups": [
+		{
+			"name": "service.speaker",
+			"type": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
+			"sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties"
+		}
+	],
+	"properties": [
+		{
+			"name": "service.speaker.protocol",
+			"type": "java.lang.String",
+			"description": "speaker service container's protocol.",
+			"sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties"
+		},
+		{
+			"name": "service.speaker.host",
+			"type": "java.lang.String",
+			"description": "speaker service container's host.",
+			"sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties"
+		},
+		{
+			"name": "service.speaker.port",
+			"type": "java.lang.String",
+			"description": "speaker service container's port.",
+			"sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties"
+		}
+	]
+}
