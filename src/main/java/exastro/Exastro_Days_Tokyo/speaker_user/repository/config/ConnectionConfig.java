@@ -13,20 +13,29 @@
  *   limitations under the License.
  */
 
-package exastro.Exastro_Days_Tokyo.speaker_user.repository;
+package exastro.Exastro_Days_Tokyo.speaker_user.repository.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
+import lombok.Getter;
+import lombok.Setter;
 
-import exastro.Exastro_Days_Tokyo.speaker_user.repository.config.ConnectionConfig;
-
-public abstract class BaseRepository {
+public class ConnectionConfig {
 	
-	Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Getter
+	@Setter
+	private String protocol;
 	
-	protected RestTemplate restTemplate;
+	@Getter
+	@Setter
+	private String host;
 	
-	protected ConnectionConfig connectionConfig;
-
+	@Getter
+	@Setter
+	private String port;
+	
+	public String buildBaseUri() {
+		
+		String baseUri = String.format("%s://%s:%s", this.protocol, this.host, this.port);
+		return baseUri;
+	}
+	
 }

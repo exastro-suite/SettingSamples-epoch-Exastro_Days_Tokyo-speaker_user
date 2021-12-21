@@ -15,6 +15,8 @@
 
 package exastro.Exastro_Days_Tokyo.speaker_user.controller.api.v1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,8 @@ import exastro.Exastro_Days_Tokyo.speaker_user.service.SpeakerService;
 import exastro.Exastro_Days_Tokyo.speaker_user.service.dto.SpeakerDetailDto;
 
 public class BaseSpeakerController {
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	protected SpeakerService service;
@@ -43,6 +47,7 @@ public class BaseSpeakerController {
 			speakerDetail = new SpeakerDetailForm();
 		}
 		catch(Exception e) {
+			logger.debug(e.getMessage(), e);
 			throw e;
 		}
 		

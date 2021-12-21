@@ -15,47 +15,43 @@
 
 package exastro.Exastro_Days_Tokyo.speaker_user.repository;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import exastro.Exastro_Days_Tokyo.speaker_user.repository.config.ConnectionConfig;
 import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerVO;
 
-@ConfigurationProperties(prefix = "service.speaker")
 @Repository
 public class SpeakerRepository extends BaseRepository {
 	
-	public SpeakerRepository(RestTemplate restTemplate) {
-		super(restTemplate);
+	@Autowired
+	public SpeakerRepository(@Qualifier("configSpeaker") ConnectionConfig connectionConfig,
+			RestTemplate restTemplate) {
+		this.connectionConfig = connectionConfig;
+		this.restTemplate = restTemplate;
 	}
 
 	public List<SpeakerVO> getSpeakerList(List<Integer> speakerIdList) {
 		
 		String apiPath = "/api/v1/speaker";
-		String apiUrl = buildBaseUri() + apiPath;
+		String apiUrl = connectionConfig.buildBaseUri() + apiPath;
 		
 		SpeakerVO[] resBody = null;
 		try {
-			
 			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(apiUrl);
+			builder.queryParam("speaker_id", speakerIdList);
+			String uri = builder.toUriString();
 			
-			String uri = builder.queryParam("speaker", speakerIdList).toUriString();
-			
-			RequestEntity<Void> requestEntity = RequestEntity.get(new URI(uri)).build();
-			
-			ResponseEntity<SpeakerVO[]> response = restTemplate.exchange(requestEntity, SpeakerVO[].class);
-			resBody = response.getBody();
+			resBody = restTemplate.getForObject(uri, SpeakerVO[].class);
 		}
 		catch(Exception e) {
-			// TODO
-			//throw e;
+			throw e;
 		}
 		
 		return Arrays.asList(resBody);

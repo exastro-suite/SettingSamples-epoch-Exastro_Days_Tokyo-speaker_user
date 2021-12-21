@@ -34,7 +34,7 @@ public class SpeakerUserController extends BaseSpeakerController {
 	}
 	
 	@GetMapping("")
-	public List<SpeakerForm> speakerList(@RequestParam(name = "speaker", required = false) List<Integer> speakerIdList) {
+	public List<SpeakerForm> speakerList(@RequestParam(name = "speaker_id", required = false) List<Integer> speakerIdList) {
 		
 		List<SpeakerForm> speakerList = null;
 		
@@ -45,6 +45,7 @@ public class SpeakerUserController extends BaseSpeakerController {
 					.collect(Collectors.toList());
 		}
 		catch(Exception e) {
+			logger.debug(e.getMessage(), e);
 			throw e;
 		}
 		

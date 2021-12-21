@@ -15,11 +15,14 @@
 
 package exastro.Exastro_Days_Tokyo.speaker_user.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.client.RestTemplate;
+
+import exastro.Exastro_Days_Tokyo.speaker_user.repository.config.ConnectionConfig;
 
 @Configuration
 public class AppConfig {
@@ -36,4 +39,10 @@ public class AppConfig {
 	  config.setIgnoreUnresolvablePlaceholders(true);
 	  return config;
 	}
+
+    @Bean
+    @ConfigurationProperties(prefix = "service.speaker")
+    public ConnectionConfig configSpeaker() {
+        return new ConnectionConfig();
+    }
 }
