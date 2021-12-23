@@ -15,40 +15,25 @@
 
 package exastro.Exastro_Days_Tokyo.speaker_user.repository.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SpeakerDetailVO {
-
+	
 	private int speakerId;
+	
 	private String speakerName;
+	
 	private String speakerProfile;
-	private boolean isDeleted;
-
-
-	public int getSpeakerId() {
-		return speakerId;
-	}
-	public void setSpeakerId(int speakerId) {
-		this.speakerId = speakerId;
-	}
 	
-	public String getSpeakerName() {
-		return speakerName;
-	}
-	public void setSpeakerName(String speakerName) {
-		this.speakerName = speakerName;
-	}
-	
-	public String getSpeakerProfile() {
-		return speakerProfile;
-	}
-	public void setSpeakerProfile(String speakerProfile) {
-		this.speakerProfile = speakerProfile;
-	}
-	
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
 }
-

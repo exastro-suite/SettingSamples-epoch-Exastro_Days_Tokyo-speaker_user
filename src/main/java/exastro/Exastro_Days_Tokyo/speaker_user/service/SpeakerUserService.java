@@ -16,11 +16,8 @@
 package exastro.Exastro_Days_Tokyo.speaker_user.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-
-import exastro.Exastro_Days_Tokyo.speaker_user.service.dto.SpeakerDto;
 
 @Service
 public class SpeakerUserService extends BaseSpeakerService implements SpeakerService {
@@ -29,15 +26,12 @@ public class SpeakerUserService extends BaseSpeakerService implements SpeakerSer
 		
 	}
 
-	public List<SpeakerDto> getSpeakerList(List<Integer> speakerIdList) {
+	public List<String> getSpeakerList(List<Integer> speakerIdList) {
 		
-		List<SpeakerDto> speakerList = null;
+		List<String> speakerList = null;
 		
 		try {
-			speakerList = repository.getSpeakerList(speakerIdList)
-					.stream()
-					.map(e -> new SpeakerDto(e.getSpeakerId(), e.getSpeakerName()))
-					.collect(Collectors.toList());
+			speakerList = repository.getSpeakerList(speakerIdList);
 		}
 		catch(Exception e) {
 			throw e;

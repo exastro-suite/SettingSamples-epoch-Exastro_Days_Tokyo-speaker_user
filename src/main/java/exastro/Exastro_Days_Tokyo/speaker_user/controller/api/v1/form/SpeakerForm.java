@@ -15,32 +15,21 @@
 
 package exastro.Exastro_Days_Tokyo.speaker_user.controller.api.v1.form;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SpeakerForm {
-
+	
 	private int speakerId;
+	
 	private String speakerName;
-
-	public SpeakerForm() {
-		
-	}
-
-	public SpeakerForm(int speakerId, String speakerName) {
-		this.speakerId = speakerId;
-		this.speakerName = speakerName;
-	}
 	
-	public int getSpeakerId() {
-		return speakerId;
-	}
-	public void setSpeakerId(int speakerId) {
-		this.speakerId = speakerId;
-	}
-	
-	public String getSpeakerName() {
-		return speakerName;
-	}
-	public void setSpeakerName(String speakerName) {
-		this.speakerName = speakerName;
-	}
 }
-

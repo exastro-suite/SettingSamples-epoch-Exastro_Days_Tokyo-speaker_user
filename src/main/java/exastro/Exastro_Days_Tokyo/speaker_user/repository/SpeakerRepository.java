@@ -21,11 +21,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import exastro.Exastro_Days_Tokyo.speaker_user.repository.config.ConnectionConfig;
-import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerVO;
 
 @Repository
 public class SpeakerRepository extends BaseRepository {
@@ -37,18 +37,21 @@ public class SpeakerRepository extends BaseRepository {
 		this.restTemplate = restTemplate;
 	}
 
-	public List<SpeakerVO> getSpeakerList(List<Integer> speakerIdList) {
+	public List<String> getSpeakerList(List<Integer> speakerIdList) {
 		
 		String apiPath = "/api/v1/speaker";
 		String apiUrl = connectionConfig.buildBaseUri() + apiPath;
 		
-		SpeakerVO[] resBody = null;
+		String[] resBody = null;
 		try {
 			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(apiUrl);
-			builder.queryParam("speaker_id", speakerIdList);
+			
+			if( ! CollectionUtils.isEmpty(speakerIdList)) {
+				builder.queryParam("speaker_id", speakerIdList);
+			}
 			String uri = builder.toUriString();
 			
-			resBody = restTemplate.getForObject(uri, SpeakerVO[].class);
+			resBody = restTemplate.getForObject(uri, String[].class);
 		}
 		catch(Exception e) {
 			throw e;

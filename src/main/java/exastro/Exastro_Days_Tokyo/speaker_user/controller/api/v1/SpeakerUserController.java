@@ -16,14 +16,11 @@
 package exastro.Exastro_Days_Tokyo.speaker_user.controller.api.v1;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import exastro.Exastro_Days_Tokyo.speaker_user.controller.api.v1.form.SpeakerForm;
 
 @RestController
 @RequestMapping("/api/v1/speaker")
@@ -34,15 +31,12 @@ public class SpeakerUserController extends BaseSpeakerController {
 	}
 	
 	@GetMapping("")
-	public List<SpeakerForm> speakerList(@RequestParam(name = "speaker_id", required = false) List<Integer> speakerIdList) {
+	public List<String> speakerList(@RequestParam(name = "speaker_id", required = false) List<Integer> speakerIdList) {
 		
-		List<SpeakerForm> speakerList = null;
+		List<String> speakerList = null;
 		
 		try {
-			speakerList = service.getSpeakerList(speakerIdList)
-					.stream()
-					.map(e -> new SpeakerForm(e.getSpeakerId(), e.getSpeakerName()))
-					.collect(Collectors.toList());
+			speakerList = service.getSpeakerList(speakerIdList);
 		}
 		catch(Exception e) {
 			logger.debug(e.getMessage(), e);
