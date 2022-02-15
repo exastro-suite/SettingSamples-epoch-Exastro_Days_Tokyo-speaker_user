@@ -37,14 +37,16 @@ public class BaseSpeakerController {
 		
 	}
 	
-	@GetMapping("/{speaker_id}")
-	public SpeakerDetailForm SpeakerDetail(@PathVariable(value = "speaker_id") @Validated int speaker_id) {
+	@GetMapping("/{speakerId}")
+	public SpeakerDetailForm speakerDetail(@PathVariable(value = "speakerId") @Validated int speakerId) {
+		
+		logger.debug("method called. [ " + Thread.currentThread().getStackTrace()[1].getMethodName() + " ]");
 		
 		SpeakerDetailForm speakerDetail = null;
-		
 		try {
-			SpeakerDetailDto speakerDetailDto = service.getSpeakerDetail(speaker_id);
-			speakerDetail = new SpeakerDetailForm();
+			SpeakerDetailDto e = service.getSpeakerDetail(speakerId);
+			speakerDetail = new SpeakerDetailForm(e.getSpeakerId(), e.getSpeakerName(), e.getSpeakerProfile());
+		
 		}
 		catch(Exception e) {
 			logger.debug(e.getMessage(), e);

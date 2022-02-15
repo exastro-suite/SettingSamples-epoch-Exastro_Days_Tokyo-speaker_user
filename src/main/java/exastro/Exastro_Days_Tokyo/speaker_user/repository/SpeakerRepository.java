@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import exastro.Exastro_Days_Tokyo.speaker_user.repository.config.ConnectionConfig;
+import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerDetailVO;
 
 @Repository
 public class SpeakerRepository extends BaseRepository {
@@ -38,6 +39,8 @@ public class SpeakerRepository extends BaseRepository {
 	}
 
 	public List<String> getSpeakerList(List<Integer> speakerIdList) {
+		
+		logger.debug("method called. [ " + Thread.currentThread().getStackTrace()[1].getMethodName() + " ]");
 		
 		String apiPath = "/api/v1/speaker";
 		String apiUrl = connectionConfig.buildBaseUri() + apiPath;
@@ -52,12 +55,30 @@ public class SpeakerRepository extends BaseRepository {
 			String uri = builder.toUriString();
 			
 			resBody = restTemplate.getForObject(uri, String[].class);
+			return Arrays.asList(resBody);
 		}
 		catch(Exception e) {
 			throw e;
 		}
+	}
+	
+	public SpeakerDetailVO getSpeakerDetail(int speakerId) {
 		
-		return Arrays.asList(resBody);
+		logger.debug("method called. [ " + Thread.currentThread().getStackTrace()[1].getMethodName() + " ]");
+		
+		String apiPath = "/api/v1/speaker/{speakerId}";
+		String apiUrl = connectionConfig.buildBaseUri() + apiPath;
+		
+		SpeakerDetailVO resBody = null;
+		try {			
+			logger.debug("restTemplate.getForObject [apiUrl: " + apiUrl + "], [speakerId: " + speakerId + "]");
+		
+			resBody = restTemplate.getForObject(apiUrl, SpeakerDetailVO.class, speakerId);
+			return resBody;
+		}
+		catch(Exception e) {
+			throw e;
+		}
 	}
 
 }

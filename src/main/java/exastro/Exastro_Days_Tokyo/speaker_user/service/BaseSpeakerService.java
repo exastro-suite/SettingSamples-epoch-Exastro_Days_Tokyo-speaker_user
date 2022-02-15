@@ -18,6 +18,7 @@ package exastro.Exastro_Days_Tokyo.speaker_user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import exastro.Exastro_Days_Tokyo.speaker_user.repository.SpeakerRepository;
+import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerDetailVO;
 import exastro.Exastro_Days_Tokyo.speaker_user.service.dto.SpeakerDetailDto;
 
 public abstract class BaseSpeakerService {
@@ -29,9 +30,18 @@ public abstract class BaseSpeakerService {
 		
 	}
 
-	public SpeakerDetailDto getSpeakerDetail(int speaker_id) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public SpeakerDetailDto getSpeakerDetail(int speakerId) {
+		
+		SpeakerDetailDto speakerInfo =null;
+		
+		try {
+			SpeakerDetailVO spvo = repository.getSpeakerDetail(speakerId);
+			speakerInfo = new SpeakerDetailDto(spvo.getSpeakerId(), spvo.getSpeakerName(), spvo.getSpeakerProfile());
+		}
+		catch(Exception e) {
+			throw e;
+		}
+		return speakerInfo;
 	}
 
 }
