@@ -38,6 +38,8 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerVO;
+
 @SpringBootTest
 public class SpeakerRepositoryTest {
 	
@@ -58,10 +60,10 @@ public class SpeakerRepositoryTest {
 		mockServer = MockRestServiceServer.createServer(restTemplate);
 		mockServer.expect(requestTo("http://localhost:8080" + "/api/v1/speaker"))
 				.andExpect(method(HttpMethod.GET))
-				.andRespond(withSuccess(mapper.writeValueAsString(getSpeakerListMock0()), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(getSpeakerListMock0_json(), MediaType.APPLICATION_JSON));
 		
 		// 対象メソッド実行
-		List<String> speakerList = speakerRepository.getSpeakerList(speakerIdList);
+		List<SpeakerVO> speakerList = speakerRepository.getSpeakerList(speakerIdList);
 		
 		// 以下、結果確認
 		assertThat(speakerList.isEmpty());
@@ -84,23 +86,30 @@ public class SpeakerRepositoryTest {
 		
 		assertThat(speakerList).hasSize(3);
 		
-		assertThat(speakerList.get(0), is("item1"));
-		assertThat(speakerList.get(1), is("item2"));
-		assertThat(speakerList.get(2), is("item3"));
+		assertThat(speakerList.get(0).getSpeakerId(), is(1));
+		assertThat(speakerList.get(0).getSpeakerName(), is("item1"));
+		assertThat(speakerList.get(1).getSpeakerId(), is(2));
+		assertThat(speakerList.get(1).getSpeakerName(), is("item2"));
+		assertThat(speakerList.get(2).getSpeakerId(), is(3));
+		assertThat(speakerList.get(2).getSpeakerName(), is("item3"));
 		
 		mockServer.verify();
 	}
 	
 	// Test Data
-	private String[] getSpeakerListMock0() {
+	private String getSpeakerListMock0_json() throws JsonProcessingException {
 		
-		String[] testData = new String[0];
+		SpeakerVO[] testData = new SpeakerVO[0];
 		
-		return testData;
+		return mapper.writeValueAsString(testData);
 	}
 	
 	private String getSpeakerListMock3_json() {
 		
-		return "[ \"item1\", \"item2\", \"item3\"]";
+		return "["
+				+ " {\"speaker_id\": 1, \"speaker_name\": \"item1\"},"
+				+ " {\"speaker_id\": 2, \"speaker_name\": \"item2\"},"
+				+ " {\"speaker_id\": 3, \"speaker_name\": \"item3\"}"
+				+ " ]";
 	}
 }

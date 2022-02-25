@@ -32,10 +32,13 @@ public abstract class BaseSpeakerService {
 
 	public SpeakerDetailDto getSpeakerDetail(int speakerId) {
 		
-		SpeakerDetailDto speakerInfo =null;
+		SpeakerDetailDto speakerInfo = null;
 		
 		try {
 			SpeakerDetailVO spvo = repository.getSpeakerDetail(speakerId);
+			if(spvo == null) {
+				return null;
+			}
 			speakerInfo = new SpeakerDetailDto(spvo.getSpeakerId(), spvo.getSpeakerName(), spvo.getSpeakerProfile());
 		}
 		catch(Exception e) {

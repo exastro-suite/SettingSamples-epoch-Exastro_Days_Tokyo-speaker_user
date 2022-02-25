@@ -20,7 +20,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +36,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import exastro.Exastro_Days_Tokyo.speaker_user.service.SpeakerService;
+import exastro.Exastro_Days_Tokyo.speaker_user.service.dto.SpeakerDto;
 
 @ExtendWith(SpringExtension.class)
 public class SpeakerUserControllerTest {
@@ -85,9 +85,12 @@ public class SpeakerUserControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)))
 				
-				.andExpect(jsonPath("$[0]").value("item1"))
-				.andExpect(jsonPath("$[1]").value("item2"))
-				.andExpect(jsonPath("$[2]").value("item3"))
+				.andExpect(jsonPath("$[0].speaker_id").value(1))
+				.andExpect(jsonPath("$[0].speaker_name").value("item1"))
+				.andExpect(jsonPath("$[1].speaker_id").value(2))
+				.andExpect(jsonPath("$[1].speaker_name").value("item2"))
+				.andExpect(jsonPath("$[2].speaker_id").value(3))
+				.andExpect(jsonPath("$[2].speaker_name").value("item3"))
 				
 				.andReturn();
 		
@@ -96,20 +99,20 @@ public class SpeakerUserControllerTest {
 	}
 	
 	// Test Data
-	private List<String> getSpeakerListMock0() {
+	private List<SpeakerDto> getSpeakerListMock0() {
 		
-		List<String> testData = new ArrayList<>();
+		List<SpeakerDto> testData = new ArrayList<>();
 		
 		return testData;
 	}
 	
-	private List<String> getSpeakerListMock3() throws ParseException {
+	private List<SpeakerDto> getSpeakerListMock3() {
 		
-		List<String> testData = new ArrayList<>();
+		List<SpeakerDto> testData = new ArrayList<>();
 		
-		testData.add("item1");
-		testData.add("item2");
-		testData.add("item3");
+		testData.add(new SpeakerDto(1, "item1"));
+		testData.add(new SpeakerDto(2, "item2"));
+		testData.add(new SpeakerDto(3, "item3"));
 		
 		return testData;
 	}

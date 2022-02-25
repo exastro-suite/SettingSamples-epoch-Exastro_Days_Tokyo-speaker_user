@@ -20,11 +20,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import exastro.Exastro_Days_Tokyo.speaker_user.service.dto.SpeakerDetailDto;
+import exastro.Exastro_Days_Tokyo.speaker_user.service.dto.SpeakerDto;
 
 @Service
 public interface SpeakerService {
 
-	public List<String> getSpeakerList(List<Integer> speakerIdList);
+	public List<SpeakerDto> getSpeakerList(List<Integer> speakerIdList);
 
 	public SpeakerDetailDto getSpeakerDetail(int speakerId);
 }

@@ -16,6 +16,7 @@
 package exastro.Exastro_Days_Tokyo.speaker_user.controller.api.v1;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import exastro.Exastro_Days_Tokyo.speaker_user.controller.api.v1.form.SpeakerForm;
 
 @RestController
 @RequestMapping("/api/v1/speaker")
@@ -35,13 +38,16 @@ public class SpeakerUserController extends BaseSpeakerController {
 	}
 	
 	@GetMapping("")
-	public List<String> speakerList(@RequestParam(name = "speaker_id", required = false) List<Integer> speakerIdList) {
+	public List<SpeakerForm> speakerList(@RequestParam(name = "speaker_id", required = false) List<Integer> speakerIdList) {
 		logger.debug("method called. [ " + Thread.currentThread().getStackTrace()[1].getMethodName() + " ]");	
 		
-		List<String> speakerList = null;
+		List<SpeakerForm> speakerList = null;
 		
 		try {
-			speakerList = service.getSpeakerList(speakerIdList);
+			speakerList = service.getSpeakerList(speakerIdList)
+					.stream()
+					.map(s -> new SpeakerForm(s.getSpeakerId(), s.getSpeakerName()))
+					.collect(Collectors.toList());
 		}
 		catch(Exception e) {
 			logger.debug(e.getMessage(), e);

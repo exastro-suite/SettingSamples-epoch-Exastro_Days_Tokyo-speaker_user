@@ -30,6 +30,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import exastro.Exastro_Days_Tokyo.speaker_user.repository.SpeakerRepository;
+import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerVO;
+import exastro.Exastro_Days_Tokyo.speaker_user.service.dto.SpeakerDto;
 
 @ExtendWith(MockitoExtension.class)
 //@SpringBootTest
@@ -49,7 +51,7 @@ public class SpeakerUserServiceTest {
 		when(repository.getSpeakerList(speakerIdList)).thenReturn(getSpeakerListMock0());
 		
 		// 対象メソッド実行
-		List<String> speakerList = speakerUserService.getSpeakerList(speakerIdList);
+		List<SpeakerDto> speakerList = speakerUserService.getSpeakerList(speakerIdList);
 		
 		// 以下、結果確認
 		assertThat(speakerList.isEmpty());
@@ -65,28 +67,31 @@ public class SpeakerUserServiceTest {
 		
 		// 以下、結果確認
 		assertThat(speakerList).hasSize(3);
-		
-		assertThat(speakerList.get(0), is("item1"));
-		assertThat(speakerList.get(1), is("item2"));
-		assertThat(speakerList.get(2), is("item3"));
+
+		assertThat(speakerList.get(0).getSpeakerId(), is(1));
+		assertThat(speakerList.get(0).getSpeakerName(), is("item1"));
+		assertThat(speakerList.get(1).getSpeakerId(), is(2));
+		assertThat(speakerList.get(1).getSpeakerName(), is("item2"));
+		assertThat(speakerList.get(2).getSpeakerId(), is(3));
+		assertThat(speakerList.get(2).getSpeakerName(), is("item3"));
 		
 	}
 	
 	// Test Data
-	private List<String> getSpeakerListMock0() {
+	private List<SpeakerVO> getSpeakerListMock0() {
 		
-		List<String> testData = new ArrayList<>();
+		List<SpeakerVO> testData = new ArrayList<>();
 		
 		return testData;
 	}
 	
-	private List<String> getSpeakerListMock3() {
+	private List<SpeakerVO> getSpeakerListMock3() {
 		
-		List<String> testData = new ArrayList<>();
+		List<SpeakerVO> testData = new ArrayList<>();
 		
-		testData.add("item1");
-		testData.add("item2");
-		testData.add("item3");
+		testData.add(new SpeakerVO(1, "item1"));
+		testData.add(new SpeakerVO(2, "item2"));
+		testData.add(new SpeakerVO(3, "item3"));
 		
 		return testData;
 	}

@@ -20,13 +20,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import exastro.Exastro_Days_Tokyo.speaker_user.repository.config.ConnectionConfig;
 import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerDetailVO;
+import exastro.Exastro_Days_Tokyo.speaker_user.repository.vo.SpeakerVO;
 
 @Repository
 public class SpeakerRepository extends BaseRepository {
@@ -38,14 +41,14 @@ public class SpeakerRepository extends BaseRepository {
 		this.restTemplate = restTemplate;
 	}
 
-	public List<String> getSpeakerList(List<Integer> speakerIdList) {
+	public List<SpeakerVO> getSpeakerList(List<Integer> speakerIdList) {
 		
 		logger.debug("method called. [ " + Thread.currentThread().getStackTrace()[1].getMethodName() + " ]");
 		
 		String apiPath = "/api/v1/speaker";
 		String apiUrl = connectionConfig.buildBaseUri() + apiPath;
 		
-		String[] resBody = null;
+		SpeakerVO[] resBody = null;
 		try {
 			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(apiUrl);
 			
@@ -54,7 +57,7 @@ public class SpeakerRepository extends BaseRepository {
 			}
 			String uri = builder.toUriString();
 			
-			resBody = restTemplate.getForObject(uri, String[].class);
+			resBody = restTemplate.getForObject(uri, SpeakerVO[].class);
 			return Arrays.asList(resBody);
 		}
 		catch(Exception e) {
@@ -75,6 +78,12 @@ public class SpeakerRepository extends BaseRepository {
 		
 			resBody = restTemplate.getForObject(apiUrl, SpeakerDetailVO.class, speakerId);
 			return resBody;
+		}
+		catch(HttpClientErrorException e) {
+			if(e.getStatusCode() == HttpStatus.NOT_FOUND) {
+				return null;
+			}
+			throw e;
 		}
 		catch(Exception e) {
 			throw e;
