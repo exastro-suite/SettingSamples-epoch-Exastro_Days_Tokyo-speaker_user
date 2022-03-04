@@ -41,7 +41,7 @@ public class AppConfig {
 	}
 
     @Bean
-    @ConfigurationProperties(prefix = "service.speaker")
+    @ConfigurationProperties(prefix = "resource.speaker")
     public ConnectionConfig configSpeaker() {
         return new ConnectionConfig();
     }
